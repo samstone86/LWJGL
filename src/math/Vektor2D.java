@@ -11,25 +11,57 @@ public class Vektor2D {
     Random rand = ThreadLocalRandom.current();
     
     public Vektor2D() {
-        this.x=0.0;
-        this.y=0.0;
+        this(0,0);
     }
 
     public Vektor2D(double x, double y) {
-        this.x=x;
-        this.y=y;
+        setX(x);
+        setY(y);
     }
     
     public Vektor2D(Vektor2D copy) {
-        this.x=copy.x;
-        this.y=copy.y;
+        this(copy.x, copy.y);
     }
-    
+
+    public Vektor2D(double x, double y, double x2, double y2) {
+        this(x2 - x, y2 - y);
+    }
+
+    public Vektor2D(Vektor2D a, Vektor2D b) {
+        this(b.getX() - a.getX(), b.getY() - a.getY());
+    }
+
+    // get and set methods
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void setPosition(Vektor2D newPos) {
+        setX(newPos.getX());
+        setY(newPos.getY());
+    }
+
+    public boolean isNullVector() {
+        return (x == 0 && y == 0);
+    }
+
     private void onErrorSetZero(int err) {
         //System.err.println("Double overflow" + err);
         //System.out.println("x" + " " + this.x);
         //System.out.println("y" + " " + this.y);
-        setPosition(0.0, 0.0);
+        //setPosition(0.0, 0.0);
     }
     
     public void differenz(Vektor2D a , Vektor2D b) {
@@ -37,61 +69,24 @@ public class Vektor2D {
     	this.y = Math.abs(a.y - b.y);
     }
 
-    public void add(Vektor2D v) {
-        if (((Double)(this.x += v.x)).isInfinite() || ((this.x += v.x) == Double.MAX_VALUE) ||
-                   ((Double)(this.y += v.x)).isInfinite() || ((this.y += v.y) == Double.MAX_VALUE)) {
-            onErrorSetZero(1);
-        } else  {
-            this.x += v.x;
-            this.y += v.y;
-        }
+    public void add(Vektor2D vec) {
+        x += vec.x;
+        y += vec.y;
     }
 
-    public void sub(Vektor2D v) {
-      if (this.x > 0 ? v.x < Double.MIN_VALUE + this.x : v.x > Double.MAX_VALUE + this.x) {
-            onErrorSetZero(2);
-        } else if (this.y > 0 ? v.y < Double.MIN_VALUE + this.y : v.y > Double.MAX_VALUE + this.y) {
-            onErrorSetZero(3);
-        } else {
-            this.x -= v.x;
-            this.y -= v.y;
-        }
+    public void sub(Vektor2D vec) {
+        x -= vec.x;
+        y -= vec.y;
     }
 
     public void mult(double s) {
-    	if (s > 0 ? this.x > Double.MAX_VALUE/s || this.x < Double.MIN_VALUE/s : (s < -1 ? this.x > Double.MIN_VALUE/s
-                || this.x < Double.MAX_VALUE/s : s == -1 && this.x == Double.MIN_VALUE)) {
-            onErrorSetZero(4);
-        } else if (s > 0 ? this.y > Double.MAX_VALUE/s || this.y < Double.MIN_VALUE/s : (s < -1 ? this.y > Double.MIN_VALUE/s
-                || this.y < Double.MAX_VALUE/s : s == -1 && this.y == Double.MIN_VALUE)) {
-            onErrorSetZero(5);
-        } else if (((Double)(this.x *= s)).isInfinite() || ((this.x *= s) == Double.MAX_VALUE) ||
-                   ((Double)(this.y *= s)).isInfinite() || ((this.y *= s) == Double.MAX_VALUE)) {
-            onErrorSetZero(6);
-        } else {
-            this.x *= s;
-            this.y *= s;
-        }
+        x *= s;
+        y *= s;
     }
 
     public void div(double s) {
-        if ((this.x == Double.MIN_VALUE) && (s == -1)) {
-            onErrorSetZero(7);
-        } else if ((this.y == Double.MIN_VALUE) && (s == -1)) {
-            onErrorSetZero(8);
-        } else if (((Double)(this.x /= s)).isInfinite() ||
-                   ((Double)(this.y /= s)).isInfinite()) {
-            onErrorSetZero(9);
-        } else if (s == 0) {
-            onErrorSetZero(10);
-        } else if ((s >= -0.1 || s <= 0.1) && (((this.x /= s) == Double.MIN_VALUE) || ((this.y /= s) == Double.MIN_VALUE))) {
-            onErrorSetZero(11);
-        } else if (s == Double.MIN_VALUE && ((this.x >= -0.1 || this.x <= 0.1) || (this.y >= -0.1 || this.y <= 0.1))) {
-            onErrorSetZero(12);
-        } else {
-            this.x /= s;
-            this.y /= s;
-        }
+        x /= s;
+        y /= s;
     }
 
     public boolean isEqual(Vektor2D v) {      
@@ -129,18 +124,8 @@ public class Vektor2D {
     }
     
     public Vektor2D Round() {
-
 		this.x = LineareAlgebra.Round(this.x);
 		this.y = LineareAlgebra.Round(this.y);
 		return this;
 	}
-
-    public void setPosition(double new_x, double new_y) {
-        this.x = new_x;
-        this.y = new_y;
-    }
-
-    public boolean isNullVector() {
-        return (this.x == 0 && this.y == 0);
-    }
 }
