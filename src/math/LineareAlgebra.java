@@ -82,7 +82,7 @@ public class LineareAlgebra {
     }
 
     public static Vektor2D normalize(final Vektor2D v1) {
-        if (v1.isNullVector()) {
+        if (v1.isNullvector()) {
             Random rdm= new Random();
             v1.x = rdm.nextDouble() * 2 -1;         // random Werte zwischen [-1, 1]
             v1.y = rdm.nextDouble() * 2 -1;

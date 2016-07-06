@@ -48,22 +48,17 @@ public class Vektor2D {
         this.y = y;
     }
 
+    // Set a new Position
     public void setPosition(Vektor2D newPos) {
         setX(newPos.getX());
         setY(newPos.getY());
     }
 
-    public boolean isNullVector() {
+    // Check for Null Vector
+    public boolean isNullvector() {
         return (x == 0 && y == 0);
     }
 
-    private void onErrorSetZero(int err) {
-        //System.err.println("Double overflow" + err);
-        //System.out.println("x" + " " + this.x);
-        //System.out.println("y" + " " + this.y);
-        //setPosition(0.0, 0.0);
-    }
-    
     public void differenz(Vektor2D a , Vektor2D b) {
     	this.x = Math.abs(a.x - b.x);
     	this.y = Math.abs(a.y - b.y);
@@ -106,7 +101,7 @@ public class Vektor2D {
     }
 
     public void normalize() {
-        if (this.isNullVector()) {
+        if (this.isNullvector()) {
 
             this.x = rand.nextDouble() * 2 -1;
             this.y = rand.nextDouble() * 2 -1;
